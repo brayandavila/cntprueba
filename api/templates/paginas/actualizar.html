@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block titulo %} Atendiendo paciente {% endblock %}
+
+{% block contenido %}
+<div class="d-flex align-items-center">
+    <strong>Loading...</strong>
+    <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+</div>
+<script type="text/javascript">
+    window.location.href = "{% url 'pacientes' %}";
+</script>
+
+{% endblock %}

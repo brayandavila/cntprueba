@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block titulo %} Agregar Paciente {% endblock %}
+
+{% block contenido %}
+<br><br>
+<button type="button" class="btn btn-outline-secondary" onclick="history.back()">Volver</button><br><br>
+<div class="row">
+    <div class="col">
+        <h6>Por favor agrega los datos del paciente</h6><br>
+        <div class="d-flex justify-content-start">
+            <form enctype="multipart/form-data" method="post">
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-outline mb-4">
+                            <input type="number" class="form-control" id="cedula" placeholder="Cédula">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-outline mb-4">
+                            <input type="text" class="form-control" id="nombres" placeholder="Nombres">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="apellidos" placeholder="Apellidos">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="edad" placeholder="Edad">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="direccion" placeholder="Dirección">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <select class="form-control" id="genero">
+                                <option value="" selected disabled hidden>Género</option>
+                                <option>Masculino</option>
+                                <option>Femenino</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="peso" placeholder="Peso">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="estatura" placeholder="Estatura">
+                        </div>
+                    </div>
+                </div>
+                <h6>Fumador</h6>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <select class="form-control" id="fumador" onchange="aFumador()">
+                                <option value="" selected disabled hidden>Elije una opción</option>
+                                <option>Sí</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="afumando" placeholder="Años fumando">
+                        </div>
+                    </div>
+                </div>
+                <h6>Dieta</h6>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <select class="form-control" id="dieta">
+                                <option value="" selected disabled hidden>Elije una opción</option>
+                                <option>Sí</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-success" onclick="getValueInput()">Ver resumen</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function aFumador() {
+            let fumador = document.getElementById("fumador").value;
+            if (fumador == 'No') {
+                document.getElementById("afumando").value = '0';
+            } else {
+                document.getElementById("afumando").value = '';
+            }
+        }
+        function getValueInput() {
+            let cedula = document.getElementById("cedula").value;
+            document.getElementById("Cedular").value = cedula;
+
+            let nombres = document.getElementById("nombres").value;
+            document.getElementById("Nombresr").value = nombres;
+
+            let apellidos = document.getElementById("apellidos").value;
+            document.getElementById("Apellidosr").value = apellidos;
+
+            let edad = document.getElementById("edad").value;
+            document.getElementById("Edadr").value = edad;
+
+            let direccion = document.getElementById("direccion").value;
+            document.getElementById("Direccionr").value = direccion;
+
+            let genero = document.getElementById("genero").value;
+            document.getElementById("Generor").value = genero;
+
+            let peso = document.getElementById("peso").value;
+            document.getElementById("Pesor").value = peso;
+
+            let estatura = document.getElementById("estatura").value;
+            document.getElementById("Estaturar").value = estatura;
+
+            let afumando = document.getElementById("afumando").value;
+            document.getElementById("Afumandor").value = afumando;
+
+            let dieta = document.getElementById("dieta").value;
+            document.getElementById("Dietar").value = dieta;
+
+            let fumador = document.getElementById("fumador").value;
+            document.getElementById("Fumadorr").value = fumador;
+
+            var prioridad = 0;
+            var rpe = peso / estatura;
+            if (edad >= 1 && edad <= 5) {
+                prioridad = prioridad + rpe + 3;
+            } else if (edad >= 6 && edad <= 12) {
+                prioridad = prioridad + rpe + 2;
+            } else if (edad >= 13 && edad <= 15) {
+                prioridad = prioridad + rpe + 1;
+            } else if (edad >= 16 && edad <= 40) {
+                if (fumador == 'Sí') {
+                    prioridad = prioridad + (afumando / 4) + 2;
+                } else {
+                    prioridad = prioridad + 2
+                }
+            } else if (edad >= 41) {
+                if (dieta == 'Sí') {
+                    if (edad >= 60 && edad <= 100) {
+                        prioridad = prioridad + (edad / 20) + 4;
+                    }
+                } else if (dieta == 'No') {
+                    prioridad = prioridad + (edad / 30) + 3;
+                }
+            }
+            document.getElementById("Prioridad").value = prioridad;
+            document.getElementById("Rpe").value = rpe;
+            document.getElementById("Estado").value = 'Pendiente';
+
+            var riesgo = 0;
+            if (edad >= 1 && edad <= 40) {
+                riesgo = riesgo + (edad * prioridad / 100)
+            } else if (edad >= 41) {
+                riesgo = riesgo + (edad * prioridad / 100) + 5.3
+            }
+            document.getElementById("Riesgo").value = riesgo;
+        }
+
+    </script>
+    <div class="col">
+        <h6>Vista previa del paciente</h6>
+
+
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div class="container-fluid">
+                <div class="row">
+                    {% for campo in formulario %}
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="{{campo.name}}" id="{{ campo.label }}"
+                                placeholder="{{campo.label}}" readonly>
+                        </div>
+                        <div>{{campo.errors}}</div>
+                    </div>
+                    
+                    {% endfor %}
+                </div>
+            </div><br>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-success">Agregar paciente</button>
+            </div>
+            
+        </form><br><br>
+    </div>    
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block titulo %} Listado de pacientes por prioridad {% endblock %}
+
+{% block contenido %}
+
+<br>
+<div class="row">
+    <div class="col">
+        <h5 class="d-flex justify-content-center">Fumador con mayor prioridad</h5>
+        <p class="d-flex justify-content-center">{{fumadorprioridad.nombres}} {{fumadorprioridad.apellidos}} - {{fumadorprioridad.documento}}</p>
+    </div>
+
+    <div class="col">
+        <h5 class="d-flex justify-content-center">Paciente más joven</h5>
+        <p class="d-flex justify-content-center">{{menoredad.nombres}} {{menoredad.apellidos}} - {{menoredad.documento}}</p>
+    </div>
+    <div class="col">
+        <h5 class="d-flex justify-content-center">Paciente con mayor edad</h5>
+        <p class="d-flex justify-content-center">{{mayoredad.nombres}} {{mayoredad.apellidos}} - {{mayoredad.documento}}</p>
+    </div>
+
+</div>
+<br>
+<h2>Listado de pacientes pendientes</h2>
+<a href="{% url 'crear' %}" class="btn btn-success" role="button">Agregar nuevo paciente</a>
+<div class="row d-flex justify-content-end">    
+    <div class="col d-flex justify-content-end">        
+        <div class="btn-group">
+            <a href="{% url 'pacientes' %}" class="btn btn-outline-secondary" role="button">↑↓ Riesgo</a>
+            <a href="{% url 'ordenado' %}" class="btn btn-outline-secondary active" role="button">↑↓ Prioridad</a>
+        </div>
+    </div>
+</div>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Cédula</th>
+            <th scope="col">Nombres</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Peso</th>
+            <th scope="col">Estatura</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Prioridad</th>
+            <th scope="col">Riesgo</th>
+            <th scope="col">¿Atender?</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for paciente in ordenadopri %}
+        {% if paciente.estado == "Pendiente" %}        
+        <tr>
+            <th scope="row">{{paciente.documento}}</th>            
+            <td>{{paciente.nombres}}</td>
+            <td>{{paciente.apellidos}}</td>
+            <td>{{paciente.edad}}</td>
+            <td>{{paciente.peso}}</td>
+            <td>{{paciente.estatura}}</td>
+            <td>{{paciente.estado}}</td>
+            <td>{{paciente.prioridad}}</td>
+            <td>{{paciente.riesgo}}</td>
+            <td><a href="{% url 'actualizar' paciente.id %}" class="btn btn-outline-success " value="{{paciente.id}}" role="button">Atender</a></td>
+            
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+
+
+{% endblock %}
