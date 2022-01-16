@@ -17,17 +17,17 @@ Hacer cambios pertinentes en el archivo "settings.py" que se encuentra en la car
 **NOTA: EL PUERTO PUEDE SER DIFERENTE**
 ```python
 DATABASES = {
-  'default': {
-	  'ENGINE': 'django.db.backends.mysql',
-	  'HOST': 'localhost',
-	  'PORT': '3306',
-	  'USER': 'tu_usuario',
-	  'PASSWORD': 'tu_contraseña',
-	  'NAME': 'nombre_base_de_datos',
-	  'OPTIONS': {
-	    "init_command": "SET sql_mode='STRICT_TRANS_TABLES'"
-	  }
-  }
+	'default': {
+		'ENGINE': 'django.db.backends.mysql',
+	  	'HOST': 'localhost',
+	  	'PORT': '3306',
+	  	'USER': 'tu_usuario',
+	  	'PASSWORD': 'tu_contraseña',
+	  	'NAME': 'nombre_base_de_datos',
+	  	'OPTIONS': {
+	    		"init_command": "SET sql_mode='STRICT_TRANS_TABLES'"
+	  	}
+  	}
 } 
  ```
 Verificar instalación de MySQL en Django ejecutando la siguiente instrucción en la carpeta raíz del proyecto: "pip install mysqlclient pymysql"
