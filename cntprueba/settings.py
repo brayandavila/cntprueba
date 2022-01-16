@@ -77,11 +77,10 @@ WSGI_APPLICATION = 'cntprueba.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'NAME': 'pruebacnt1',
+        'HOST': 'brayandavila95.mysql.pythonanywhere-services.com',
+        'USER': 'brayandavila95',
+        'PASSWORD': 'brayan123456',
+        'NAME': 'brayandavila95$pruebacnt1',
         'OPTIONS': {
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'"
         }
