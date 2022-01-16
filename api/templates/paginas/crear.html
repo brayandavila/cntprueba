@@ -3,12 +3,24 @@
 {% block titulo %} Agregar Paciente {% endblock %}
 
 {% block contenido %}
-<br><br>
-<button type="button" class="btn btn-outline-secondary" onclick="history.back()">Volver</button><br><br>
+<br>
 <div class="row">
     <div class="col">
-        <h6>Por favor agrega los datos del paciente</h6><br>
-        <div class="d-flex justify-content-start">
+        <button type="button" class="btn-floating light-green" onclick="history.back()"><svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            </svg></button>
+        <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Button group">
+
+        </div>
+        <h6 class="d-flex justify-content-center">Por favor agrega los datos del paciente</h6>
+    </div>
+</div><br>
+<div class="row">
+    <div class="col">
+        <div class="d-flex justify-content-center">
             <form enctype="multipart/form-data" method="post">
 
                 <div class="row">
@@ -25,25 +37,25 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
+                        <div class="form-outline mb-4">
                             <input type="text" class="form-control" id="apellidos" placeholder="Apellidos">
                         </div>
                     </div>
                     <div class="col">
-                        <div class="form-group">
+                        <div class="form-outline mb-4">
                             <input type="number" class="form-control" id="edad" placeholder="Edad">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
+                        <div class="form-outline mb-4">
                             <input type="text" class="form-control" id="direccion" placeholder="Dirección">
                         </div>
                     </div>
                     <div class="col">
-                        <div class="form-group">
-                            <select class="form-control" id="genero">
+                        <div class="form-outline mb-4">
+                            <select class="form-select" id="genero">
                                 <option value="" selected disabled hidden>Género</option>
                                 <option>Masculino</option>
                                 <option>Femenino</option>
@@ -53,21 +65,21 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
-                            <input type="number" class="form-control" id="peso" placeholder="Peso">
+                        <div class="form-outline mb-4">
+                            <input type="number" class="form-control" id="peso" placeholder="Peso (En Kg)">
                         </div>
                     </div>
                     <div class="col">
-                        <div class="form-group">
-                            <input type="number" class="form-control" id="estatura" placeholder="Estatura">
+                        <div class="form-outline mb-4">
+                            <input type="number" class="form-control" id="estatura" placeholder="Estatura (En cm)">
                         </div>
                     </div>
                 </div>
                 <h6>Fumador</h6>
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
-                            <select class="form-control" id="fumador" onchange="aFumador()">
+                        <div class="form-outline mb-4">
+                            <select class="form-select" id="fumador" onchange="aFumador()">
                                 <option value="" selected disabled hidden>Elije una opción</option>
                                 <option>Sí</option>
                                 <option>No</option>
@@ -75,7 +87,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="form-group">
+                        <div class="form-outline mb-4">
                             <input type="number" class="form-control" id="afumando" placeholder="Años fumando">
                         </div>
                     </div>
@@ -83,8 +95,8 @@
                 <h6>Dieta</h6>
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
-                            <select class="form-control" id="dieta">
+                        <div class="form-outline mb-4">
+                            <select class="form-select" id="dieta">
                                 <option value="" selected disabled hidden>Elije una opción</option>
                                 <option>Sí</option>
                                 <option>No</option>
@@ -92,7 +104,8 @@
                         </div>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-success" onclick="getValueInput()">Ver resumen</button>
+                        <button type="button" class="btn btn-success" onclick="getValueInput()" data-toggle="modal"
+                            data-target="#exampleModal">Revisar</button>
                     </div>
                 </div>
             </form>
@@ -178,31 +191,41 @@
         }
 
     </script>
-    <div class="col">
-        <h6>Vista previa del paciente</h6>
-
-
-        <form enctype="multipart/form-data" method="post">
-            {% csrf_token %}
-            <div class="container-fluid">
-                <div class="row">
-                    {% for campo in formulario %}
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="{{campo.name}}" id="{{ campo.label }}"
-                                placeholder="{{campo.label}}" readonly>
-                        </div>
-                        <div>{{campo.errors}}</div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form enctype="multipart/form-data" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Revisa la información del paciente</h5>
                     </div>
-                    
-                    {% endfor %}
+                    <div class="modal-body">
+
+                        {% csrf_token %}
+                        <div class="container-fluid">
+                            <div class="row">
+                                {% for campo in formulario %}
+                                <div class="col-sm-6">
+                                    <div class="form-outline mb-3">
+                                        <label for="{{campo.label}}">{{campo.name|title}}</label>
+                                        <input type="text" class="form-control" name="{{campo.name}}"
+                                            id="{{ campo.label }}" placeholder="" readonly>
+                                    </div>
+                                    <div>{{campo.errors}}</div>
+                                </div>
+
+                                {% endfor %}
+                            </div>
+                        </div><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Editar</button>
+                        <button type="submit" class="btn btn-success">Agregar paciente</button>
+                    </div>
                 </div>
-            </div><br>
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-success">Agregar paciente</button>
-            </div>
-            
-        </form><br><br>
-    </div>    
+            </form>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

@@ -1,44 +1,352 @@
 {% extends "base.html" %}
 
-{% block titulo %} Listado de pacientes por prioridad {% endblock %}
+{% block titulo %} Listado de pacientes por riesgo {% endblock %}
 
 {% block contenido %}
+<!-- Button trigger modal -->
+
 
 <br>
-<div class="row">
-    <div class="col">
-        <h5 class="d-flex justify-content-center">Fumador con mayor prioridad</h5>
-        <p class="d-flex justify-content-center">{{fumadorprioridad.nombres}} {{fumadorprioridad.apellidos}} - {{fumadorprioridad.documento}}</p>
-    </div>
+<div class="btn-group" role="group" aria-label="Button group">
+    <a href="{% url 'crear' %}" class="btn btn-outline-success" role="button"><svg xmlns="http://www.w3.org/2000/svg"
+            width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+        </svg> Paciente</a>
 
-    <div class="col">
-        <h5 class="d-flex justify-content-center">Paciente más joven</h5>
-        <p class="d-flex justify-content-center">{{menoredad.nombres}} {{menoredad.apellidos}} - {{menoredad.documento}}</p>
-    </div>
-    <div class="col">
-        <h5 class="d-flex justify-content-center">Paciente con mayor edad</h5>
-        <p class="d-flex justify-content-center">{{mayoredad.nombres}} {{mayoredad.apellidos}} - {{mayoredad.documento}}</p>
-    </div>
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal">
+        Fumador
+    </button>
 
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal2">
+        Joven
+    </button>
+
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal3">
+        Viejo
+    </button>
 </div>
-<br>
-<h2>Listado de pacientes pendientes</h2>
-<a href="{% url 'crear' %}" class="btn btn-success" role="button">Agregar nuevo paciente</a>
-<div class="row d-flex justify-content-end">    
-    <div class="col d-flex justify-content-end">        
-        <div class="btn-group">
-            <a href="{% url 'pacientes' %}" class="btn btn-outline-secondary" role="button">↑↓ Riesgo</a>
-            <a href="{% url 'ordenado' %}" class="btn btn-outline-secondary active" role="button">↑↓ Prioridad</a>
+
+<div class="modal fade bd-example-modal-s" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Paciente fumador con mayor prioridad</h5>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col">
+                                    Cédula:
+                                </div>
+                                <div class="col">
+                                    {{fumadorprioridad.documento}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Nombres:
+                                </div>
+                                <div class="col">
+                                    {{fumadorprioridad.nombres}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Apellidos:
+                                </div>
+                                <div class="col">
+                                    {{fumadorprioridad.apellidos}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Edad:
+                                </div>
+                                <div class="col">
+                                    {{fumadorprioridad.edad}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Peso:
+                                </div>
+                                <div class="col">
+                                    {{fumadorprioridad.peso}} Kg
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Estatura:
+                                </div>
+                                <div class="col">
+                                    {{fumadorprioridad.estatura}} cm
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Estado:
+                                </div>
+                                <div class="col">
+                                    {{fumadorprioridad.estado}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Prioridad:
+                                </div>
+                                <div class="col">
+                                    {{fumadorprioridad.prioridad|floatformat:2}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Riesgo:
+                                </div>
+                                <div class="col">
+                                    {{fumadorprioridad.riesgo|floatformat:2}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                {% if fumadorprioridad %}
+                <a href="{% url 'actualizar' fumadorprioridad.id %}" class="btn btn-outline-success " 
+                    role="button">Atender</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade bd-example-modal-sm" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Paciente más joven</h5>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col">
+                                    Cédula:
+                                </div>
+                                <div class="col">
+                                    {{menoredad.documento}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Nombres:
+                                </div>
+                                <div class="col">
+                                    {{menoredad.nombres}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Apellidos:
+                                </div>
+                                <div class="col">
+                                    {{menoredad.apellidos}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Edad:
+                                </div>
+                                <div class="col">
+                                    {{menoredad.edad}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Peso:
+                                </div>
+                                <div class="col">
+                                    {{menoredad.peso}} Kg
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Estatura:
+                                </div>
+                                <div class="col">
+                                    {{menoredad.estatura}} cm
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Estado:
+                                </div>
+                                <div class="col">
+                                    {{menoredad.estado}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Prioridad:
+                                </div>
+                                <div class="col">
+                                    {{menoredad.prioridad|floatformat:2}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Riesgo:
+                                </div>
+                                <div class="col">
+                                    {{menoredad.riesgo|floatformat:2}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                {% if menoredad %}
+                <a href="{% url 'actualizar' menoredad.id %}" class="btn btn-outline-success " 
+                    role="button">Atender</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-s" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Paciente más viejo</h5>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col">
+                                    Cédula:
+                                </div>
+                                <div class="col">
+                                    {{mayoredad.documento}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Nombres:
+                                </div>
+                                <div class="col">
+                                    {{mayoredad.nombres}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Apellidos:
+                                </div>
+                                <div class="col">
+                                    {{mayoredad.apellidos}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Edad:
+                                </div>
+                                <div class="col">
+                                    {{mayoredad.edad}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Peso:
+                                </div>
+                                <div class="col">
+                                    {{mayoredad.peso}} Kg
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Estatura:
+                                </div>
+                                <div class="col">
+                                    {{mayoredad.estatura}} cm
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Estado:
+                                </div>
+                                <div class="col">
+                                    {{mayoredad.estado}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Prioridad:
+                                </div>
+                                <div class="col">
+                                    {{mayoredad.prioridad|floatformat:2}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Riesgo:
+                                </div>
+                                <div class="col">
+                                    {{mayoredad.riesgo|floatformat:2}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                {% if mayoredad %}
+                <a href="{% url 'actualizar' mayoredad.id %}" class="btn btn-outline-success " 
+                    role="button">Atender</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+<div class="row">
+    <div class="col">
+        <h2>Pacientes sin atender</h2>
+    </div>
+    <div class="col">
+        <div class="row d-flex justify-content-end">
+            <div class="col d-flex justify-content-end">
+                <div class="btn-group">
+                    <a href="{% url 'pacientes' %}" class="btn btn-outline-secondary " role="button">↑↓ Riesgo</a>
+                    <a href="{% url 'ordenado' %}" class="btn btn-outline-secondary active" role="button">↑↓ Prioridad</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <br>
-<table class="table table-striped">
+<table class="table table-striped table-responsive">
     <thead>
         <tr>
             <th scope="col">Cédula</th>
-            <th scope="col">Nombres</th>
-            <th scope="col">Apellidos</th>
+            <th scope="col">Nombre</th>
             <th scope="col">Edad</th>
             <th scope="col">Peso</th>
             <th scope="col">Estatura</th>
@@ -50,25 +358,24 @@
     </thead>
     <tbody>
         {% for paciente in ordenadopri %}
-        {% if paciente.estado == "Pendiente" %}        
+        {% if paciente.estado == "Pendiente" %}
         <tr>
-            <th scope="row">{{paciente.documento}}</th>            
-            <td>{{paciente.nombres}}</td>
-            <td>{{paciente.apellidos}}</td>
+            <th scope="row">{{paciente.documento}}</th>
+            <td>{{paciente.nombres}} {{paciente.apellidos}}</td>
             <td>{{paciente.edad}}</td>
-            <td>{{paciente.peso}}</td>
-            <td>{{paciente.estatura}}</td>
+            <td>{{paciente.peso}} Kg</td>
+            <td>{{paciente.estatura}} cm</td>
             <td>{{paciente.estado}}</td>
-            <td>{{paciente.prioridad}}</td>
-            <td>{{paciente.riesgo}}</td>
-            <td><a href="{% url 'actualizar' paciente.id %}" class="btn btn-outline-success " value="{{paciente.id}}" role="button">Atender</a></td>
-            
+            <td>{{paciente.prioridad|floatformat:2}}</td>
+            <td>{{paciente.riesgo|floatformat:2}}</td>
+            <td><a href="{% url 'actualizar' paciente.id %}" class="btn btn-outline-success " value="{{paciente.id}}"
+                    role="button">Atender</a></td>
+
         </tr>
         {% endif %}
         {% endfor %}
     </tbody>
 </table>
 <br><br>
-
-
+<br>
 {% endblock %}
